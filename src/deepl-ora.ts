@@ -9,9 +9,20 @@ const oraSpinner = ora();
 
 async function translateText() {
   const DEEPL_API_KEY = process.env["DEEPL_API_KEY"];
-  const targetLanguage = process.argv[3] || "en";
+
+  const languageChoices = [
+    { title: "English", value: "en" },
+    { title: "Chinese", value: "zh" },
+  ];
 
   const response = await prompts([
+    {
+      type: "select",
+      name: "targetLanguage",
+      message: "Select the target language:",
+      choices: languageChoices,
+      initial: 0,
+    },
     {
       type: "text",
       name: "textToTranslate",
@@ -20,6 +31,7 @@ async function translateText() {
     },
   ]);
 
+  const targetLanguage = response.targetLanguage;
   const textToTranslate = response.textToTranslate;
 
   const url = "https://api-free.deepl.com/v2/translate";
