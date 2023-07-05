@@ -9,6 +9,11 @@ const oraSpinner = ora();
 
 async function translateText() {
   const DEEPL_API_KEY = process.env["DEEPL_API_KEY"];
+  if (!DEEPL_API_KEY) {
+    // TODO: use chalk
+    oraSpinner.fail("⚠ Your DEEPL_API_KEY is not set");
+    return;
+  }
 
   const languageChoices = [
     { title: "English", value: "en" },
