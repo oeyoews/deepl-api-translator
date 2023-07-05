@@ -40,7 +40,7 @@ async function translateText() {
   params.append("text", textToTranslate);
   params.append("target_lang", targetLanguage);
 
-  oraSpinner.start("Translating text ... ");
+  oraSpinner.start("");
   fetch(url, {
     method: "POST",
     body: params,
@@ -49,9 +49,9 @@ async function translateText() {
     .then((data) => {
       const translatedText = data.translations[0].text;
       console.log(
-        `Original Text: ${chalk.bgYellow.black(
+        `Original Text ⧐ ${chalk.bgYellow.black(
           textToTranslate
-        )}\nTranslated Text: ${chalk.bgGreen.black(translatedText)}`
+        )}\nTranslated Text ⇢ ${chalk.bgGreen.black(translatedText)}`
       );
     })
     .catch(() => oraSpinner.fail("程序异常"))
