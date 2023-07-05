@@ -1,3 +1,4 @@
-## NOTE
+## TODO
 
-暂时不支持Nodejs 20
+- [ ] 不支持Nodejs 20
+- [ ] 移除@types/prompts
