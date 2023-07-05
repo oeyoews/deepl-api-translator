@@ -4,8 +4,8 @@
     // Disabled because of https://github.com/Microsoft/TypeScript/issues/29172
     "removeComments": true,
     "outDir": "dist",
-    "module": "node16",
-    "moduleResolution": "node16",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "moduleDetection": "force",
     "target": "ES6", // Node.js 16
     "lib": ["DOM", "DOM.Iterable", "ES2022"],

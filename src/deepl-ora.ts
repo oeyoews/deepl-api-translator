@@ -1,14 +1,25 @@
 import ora from "ora";
 import dotenv from "dotenv";
+import prompts from "prompts";
 
 dotenv.config();
 
 const oraSpinner = ora();
 
-function translateText() {
+async function translateText() {
   const DEEPL_API_KEY = process.env["DEEPL_API_KEY"];
-  const textToTranslate = process.argv[2] || "你好";
   const targetLanguage = process.argv[3] || "en";
+
+  const response = await prompts([
+    {
+      type: "text",
+      name: "textToTranslate",
+      message: "Enter the text to translate:",
+      initial: "你好",
+    },
+  ]);
+
+  const textToTranslate = response.textToTranslate;
 
   const url = "https://api-free.deepl.com/v2/translate";
   const params = new URLSearchParams();
