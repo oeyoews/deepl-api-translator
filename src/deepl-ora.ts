@@ -1,6 +1,7 @@
 import ora from "ora";
 import dotenv from "dotenv";
 import prompts from "prompts";
+import chalk from "chalk";
 
 dotenv.config();
 
@@ -36,7 +37,9 @@ async function translateText() {
     .then((data) => {
       const translatedText = data.translations[0].text;
       console.log(
-        `Original Text: ${textToTranslate}\nTranslated Text: ${translatedText}`
+        `Original Text: ${chalk.bgYellow.black(
+          textToTranslate
+        )}\nTranslated Text: ${chalk.bgGreen.black(translatedText)}`
       );
     })
     .catch(() => oraSpinner.fail("程序异常"))
