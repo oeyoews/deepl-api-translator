@@ -1,4 +1,4 @@
-import ora from "ora";
+import ora, { oraPromise } from "ora";
 import dotenv from "dotenv";
 import prompts from "prompts";
 import chalk from "chalk";
@@ -45,22 +45,23 @@ async function translateText() {
   params.append("text", textToTranslate);
   params.append("target_lang", targetLanguage);
 
-  oraSpinner.start("");
-  fetch(url, {
-    method: "POST",
-    body: params,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const translatedText = data.translations[0].text;
-      console.log(
-        `Original Text ⧐ ${chalk.bgYellow.black(
-          textToTranslate
-        )}\nTranslated Text ⇢ ${chalk.bgGreen.black(translatedText)}`
-      );
+  oraPromise(
+    fetch(url, {
+      method: "POST",
+      body: params,
     })
-    .catch(() => oraSpinner.fail("程序异常"))
-    .finally(() => oraSpinner.stop());
+      .then((response) => response.json())
+      .then((data) => {
+        const translatedText = data.translations[0].text;
+        console.log(
+          `Original Text ⧐ ${chalk.bgYellow.black(
+            textToTranslate
+          )}\nTranslated Text ⇢ ${chalk.bgGreen.black(translatedText)}`
+        );
+      })
+      .catch(() => oraSpinner.fail("程序异常"))
+      .finally(() => oraSpinner.stop())
+  );
 }
 
 translateText();
