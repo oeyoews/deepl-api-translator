@@ -1,5 +1,5 @@
 {
-  "include": ["**/deepl.ts"],
+  "include": ["**/deepl-ora.ts"],
   "compilerOptions": {
     // Disabled because of https://github.com/Microsoft/TypeScript/issues/29172
     "removeComments": true,

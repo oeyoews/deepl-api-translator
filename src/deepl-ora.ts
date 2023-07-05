@@ -1,11 +1,13 @@
 import ora from "ora";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const oraSpinner = ora();
 
 function translateText() {
-  // TODO: use dotenv
-  const DEEPL_API_KEY = "eaaa775e-c347-582b-b1b2-80ccd8f60b13:fx";
-  const textToTranslate = process.argv[2] || "你好吗?";
+  const DEEPL_API_KEY = process.env["DEEPL_API_KEY"];
+  const textToTranslate = process.argv[2] || "你好";
   const targetLanguage = process.argv[3] || "en";
 
   const url = "https://api-free.deepl.com/v2/translate";

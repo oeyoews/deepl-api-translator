@@ -6,8 +6,9 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-esm --files src/deepl.ts",
-    "build": "tsc"
+    "dev": "ts-node-esm --files src/deepl-ora.ts",
+    "build": "tsc",
+    "build-run": "tsc && node --no-warnings dist/deepl-ora.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
