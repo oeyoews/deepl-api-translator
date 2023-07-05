@@ -40,7 +40,7 @@ async function translateText() {
   params.append("text", textToTranslate);
   params.append("target_lang", targetLanguage);
 
-  oraSpinner.start("Translating");
+  oraSpinner.start("Translating text ... ");
   fetch(url, {
     method: "POST",
     body: params,
