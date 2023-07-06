@@ -18,50 +18,60 @@ async function translateText() {
   const languageChoices = [
     { title: "English", value: "en" },
     { title: "Chinese", value: "zh" },
+    { title: "退出", value: "exit" },
   ];
 
-  const response = await prompts([
-    {
-      type: "select",
-      name: "targetLanguage",
-      message: "Select the target language:",
-      choices: languageChoices,
-      initial: 0,
-    },
-    {
-      type: "text",
-      name: "textToTranslate",
-      message: "Enter the text to translate:",
-      initial: "你好",
-    },
-  ]);
+  let continueTranslation = true;
 
-  const targetLanguage = response.targetLanguage;
-  const textToTranslate = response.textToTranslate;
+  while (continueTranslation) {
+    const response = await prompts([
+      {
+        type: "select",
+        name: "targetLanguage",
+        message: "Select the target language:",
+        choices: languageChoices,
+        initial: 0,
+      },
+      {
+        type: (prev) => (prev == "exit" ? null : "text"),
+        name: "textToTranslate",
+        message: "Enter the text to translate:",
+        initial: "你好",
+      },
+    ]);
 
-  const url = "https://api-free.deepl.com/v2/translate";
-  const params = new URLSearchParams();
-  params.append("auth_key", DEEPL_API_KEY as string);
-  params.append("text", textToTranslate);
-  params.append("target_lang", targetLanguage);
+    if (response.targetLanguage === "exit") {
+      continueTranslation = false;
+      break;
+    }
 
-  oraPromise(
-    fetch(url, {
-      method: "POST",
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const translatedText = data.translations[0].text;
-        console.log(
-          `Original Text ⧐ ${chalk.bgYellow.black(
-            textToTranslate
-          )}\nTranslated Text ⇢ ${chalk.bgGreen.black(translatedText)}`
-        );
+    const targetLanguage = response.targetLanguage;
+    const textToTranslate = response.textToTranslate;
+
+    const url = "https://api-free.deepl.com/v2/translate";
+    const params = new URLSearchParams();
+    params.append("auth_key", DEEPL_API_KEY as string);
+    params.append("text", textToTranslate);
+    params.append("target_lang", targetLanguage);
+
+    await oraPromise(
+      fetch(url, {
+        method: "POST",
+        body: params,
       })
-      .catch(() => oraSpinner.fail("程序异常"))
-      .finally(() => oraSpinner.stop())
-  );
+        .then((response) => response.json())
+        .then((data) => {
+          const translatedText = data.translations[0].text;
+          console.log(
+            `Original Text ⧐ ${chalk.bgYellow.black(
+              textToTranslate
+            )}\nTranslated Text ⇢ ${chalk.bgGreen.black(translatedText)}`
+          );
+        })
+        .catch(() => oraSpinner.fail("程序异常"))
+        .finally(() => oraSpinner.stop())
+    );
+  }
 }
 
 translateText();
